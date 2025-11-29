@@ -1,8 +1,8 @@
-###Angular 20 | .NET 9 (ASP.NET Core) | PostgreSQL
+### Angular 20 | .NET 9 (ASP.NET Core) | PostgreSQL
 
-##Authentication example combining an Angular front-end and .NET back-end with PostgreSQL.Ready to production readiness and scaling.
+## Authentication example combining an Angular front-end and .NET back-end with PostgreSQL.Ready to production readiness and scaling.
 
-##./runApp.sh to run
+## ./runApp.sh to run
 
 ### Angular code generation helpers
 
