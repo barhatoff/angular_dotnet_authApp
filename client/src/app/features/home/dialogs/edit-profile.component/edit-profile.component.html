@@ -1,0 +1,39 @@
+<mat-dialog-content>
+  <h2>Edit profile</h2>
+  <div class="flex w-full mt-10">
+    <mat-form-field class="w-11/12">
+      <mat-label>Nickname</mat-label>
+      <input matInput [formControl]="nicknameControl" />
+      <mat-error *ngIf="nicknameControl.hasError('minlength')">
+        Nickname must be at least 3 characters long.
+      </mat-error>
+      <mat-error *ngIf="nicknameControl.hasError('maxlength')">
+        Nickname cannot exceed 60 characters.
+      </mat-error>
+      <mat-error *ngIf="nicknameControl.hasError('valueDidntChanged')">
+        This is your current nickname. Please enter a new one.
+      </mat-error>
+    </mat-form-field>
+    <ui-apply-sqr-button
+      [onClick]="updateNickname"
+      [isDisabled]="isInputsDisabled() || !nicknameControl.valid" />
+  </div>
+  <div class="flex w-full mt-2">
+    <mat-form-field class="w-11/12">
+      <mat-label>Avatar URL</mat-label>
+      <input matInput [formControl]="avatarControl" />
+      <mat-error *ngIf="avatarControl.hasError('invalidUrl')">
+        Invalid URL
+      </mat-error>
+      <mat-error *ngIf="avatarControl.hasError('valueDidntChanged')">
+        This is your current avatar. Please enter a new one.
+      </mat-error>
+    </mat-form-field>
+    <ui-apply-sqr-button
+      [onClick]="updateAvatar"
+      [isDisabled]="isInputsDisabled() || !avatarControl.valid" />
+  </div>
+</mat-dialog-content>
+<mat-dialog-actions align="end">
+  <button matButton mat-dialog-close class="!text-error">Close</button>
+</mat-dialog-actions>

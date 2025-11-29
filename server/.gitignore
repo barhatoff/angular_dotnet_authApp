@@ -1,0 +1,9 @@
+# Build output directories
+bin/
+obj/
+
+# Migration directories
+Migrations/
+
+# Configuration files
+appsettings.Development.json

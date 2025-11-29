@@ -1,0 +1,53 @@
+{
+  "name": "ng-auth",
+  "version": "0.0.0",
+  "scripts": {
+    "ng": "ng",
+    "start": "ng serve --host 192.168.0.191 --port 4200 --ssl",
+    "build": "ng build",
+    "watch": "ng build --watch --configuration development",
+    "test": "ng test",
+    "g:s": "bash -c 'ng g s core/services/$1.service' --",
+    "g:u": "bash -c 'ng g class core/utils/$1.util' --",
+    "g:interceptor": "bash -c 'ng g interceptor core/interceptors/$1' --",
+    "g:guard": "bash -c 'ng g g core/guards/$1' --",
+    "g:s:api": "bash -c 'ng g s core/services/api/$1/$1-api.service && ng g i /core/services/api/$1/$1-request.interface && ng g i /core/services/api/$1/$1-response.interface' --",
+    "g:route": "bash -c 'if [ -n \"$2\" ]; then ng g c features/$1/$2.component; else ng g c features/$1.component; fi' --",
+    "g:model": "bash -c 'ng g i shared/models/$1.model' --",
+    "g:shared:c": "bash -c 'if [ -n \"$2\" ]; then ng g c shared/components/$1/$2.component; else ng g c shared/components/$1.component; fi' --",
+    "g:layer": "bash -c 'ng g c shared/layers/$1-layer' --"
+  },
+  "private": true,
+  "dependencies": {
+    "@angular/cdk": "^20.2.9",
+    "@angular/common": "^20.3.0",
+    "@angular/compiler": "^20.3.0",
+    "@angular/core": "^20.3.0",
+    "@angular/forms": "^20.3.0",
+    "@angular/material": "^20.2.9",
+    "@angular/platform-browser": "^20.3.0",
+    "@angular/router": "^20.3.0",
+    "@fortawesome/angular-fontawesome": "^3.0.0",
+    "@fortawesome/fontawesome-svg-core": "^7.1.0",
+    "@fortawesome/free-solid-svg-icons": "^7.1.0",
+    "rxjs": "~7.8.0",
+    "tslib": "^2.3.0"
+  },
+  "devDependencies": {
+    "@angular/build": "^20.3.2",
+    "@angular/cli": "^20.3.2",
+    "@angular/compiler-cli": "^20.3.0",
+    "@types/jasmine": "~5.1.0",
+    "autoprefixer": "^10.4.21",
+    "jasmine-core": "~5.9.0",
+    "karma": "~6.4.0",
+    "karma-chrome-launcher": "~3.2.0",
+    "karma-coverage": "~2.2.0",
+    "karma-jasmine": "~5.1.0",
+    "karma-jasmine-html-reporter": "~2.1.0",
+    "postcss": "^8.5.6",
+    "prettier": "^3.6.2",
+    "tailwindcss": "^3.4.18",
+    "typescript": "~5.9.2"
+  }
+}

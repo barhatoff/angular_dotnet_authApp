@@ -1,0 +1,8 @@
+<app-error *ngIf="errorService.error()" class="flex w-full min-h-full" />
+
+<app-main-layer
+  class="w-full"
+  *ngIf="!routerService.isAuthRoute() && !errorService.error()" />
+
+<!-- auth routes -->
+<router-outlet *ngIf="routerService.isAuthRoute() && !errorService.error()" />

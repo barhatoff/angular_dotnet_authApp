@@ -1,0 +1,114 @@
+@use '@angular/material' as mat;
+@use './app/shared/theme/app-theme.scss' as app-theme;
+
+@use 'sass:map';
+@use 'sass:color';
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+$base-font-size: 16px;
+$background-color: var(--mat-sys-surface);
+
+html {
+  font-family: Roboto, 'Helvetica Neue', sans-serif;
+  color-scheme: light dark;
+  @include mat.theme(
+    (
+      color: (
+        primary: app-theme.$primary-palette,
+        error: app-theme.$error-palette,
+        warn: app-theme.$warning-palette,
+        success: app-theme.$success-palette,
+        tertiary: app-theme.$tertiary-palette,
+        theme-type: color-scheme,
+      ),
+      typography: Roboto,
+      density: 0,
+    )
+  );
+
+  @include mat.all-component-themes(app-theme.$primary-palette);
+
+  height: 100%;
+}
+
+body {
+  font-size: $base-font-size;
+  background: var(--mat-sys-surface);
+  color: var(--mat-sys-on-surface);
+  --color-background-400: var(--mat-sys-surface-container-highest);
+  --color-background-500: var(--mat-sys-surface);
+  --color-background-600: var(--mat-sys-surface-container);
+  --color-success: #{map.get(app-theme.$success-palette, 40)};
+  --color-success-container: #{map.get(app-theme.$success-palette, 70)};
+  --color-warning: #{map.get(app-theme.$warning-palette, 50)};
+  --color-warning-container: #{map.get(app-theme.$warning-palette, 90)};
+  --mat-dialog-with-actions-content-padding: 2rem 1.5rem 0 1.5rem;
+  height: 100%;
+}
+app-root {
+  min-height: 100%;
+  display: flex;
+  position: relative;
+}
+
+h1 {
+  font-size: 4rem;
+}
+h2 {
+  font-size: 2rem;
+}
+p {
+  font-size: 1rem;
+}
+span {
+  font-size: 0.85rem;
+}
+a {
+  font-size: 0.85rem;
+  text-decoration: underline;
+  cursor: pointer;
+}
+a:hover {
+  opacity: 0.8;
+}
+.component {
+  width: 100%;
+  display: flex;
+}
+
+// MAT OVERRIDES
+.snackbar-success {
+  @include mat.snack-bar-overrides(
+    (
+      container-color: var(--color-success-container),
+      button-color: var(--color-success),
+    )
+  );
+}
+.snackbar-error {
+  @include mat.snack-bar-overrides(
+    (
+      container-color: var(--mat-sys-error),
+      button-color: var(--mat-sys-error-container),
+    )
+  );
+}
+.snackbar-warning {
+  @include mat.snack-bar-overrides(
+    (
+      container-color: var(--color-warning-container),
+      button-color: var(--color-warning),
+    )
+  );
+}
+.button-error {
+  @include mat.button-overrides(
+    (
+      filled-container-color: var(--mat-sys-error-container),
+      filled-label-text-color: var(--mat-sys-error),
+    )
+  );
+}

@@ -1,0 +1,18 @@
+<mat-drawer-container autosize class="min-h-full" *ngIf="userService.user()">
+  <mat-drawer #drawer class="md:!w-1/6 !w-3/4">
+    <app-nav [drawer]="drawer" />
+  </mat-drawer>
+  <mat-drawer-content>
+    <app-header [drawer]="drawer" />
+    <app-content><router-outlet /></app-content>
+  </mat-drawer-content>
+</mat-drawer-container>
+
+<!-- SKELETON -->
+<div class="h-4/6 animate-pulse" *ngIf="!userService.user()">
+  <header
+    class="bg-background-400 max-w-full h-32 opacity-30 rounded-md"></header>
+  <content
+    class="block bg-background-400 max-w-full h-full opacity-30 m-5 rounded-md"></content>
+</div>
+<!-- SKELETON -->

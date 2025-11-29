@@ -1,0 +1,6 @@
+<mat-icon
+  class="text-base transition-all duration-200 absolute bottom-0"
+  *ngIf="isActive()"
+  [class]="isHovered() ? 'opacity-100' : 'opacity-30'">
+  {{ direction() === 'asc' ? 'arrow_downward' : 'arrow_upward' }}
+</mat-icon>

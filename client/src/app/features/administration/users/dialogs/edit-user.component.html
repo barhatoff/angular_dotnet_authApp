@@ -1,0 +1,20 @@
+<mat-dialog-content>
+  <h2>Edit user {{ dialogData.user.email }}</h2>
+  <div class="mt-10 flex flex-col">
+    <mat-slide-toggle
+      [checked]="adminToggleBool()"
+      [disabled]="adminToggleDisabled()"
+      (change)="onRoleChange($event)">
+      <p class="text-xl">Administrator rights</p>
+    </mat-slide-toggle>
+    <button
+      matButton="filled"
+      class="mt-5 button-error"
+      (click)="deleteUser(dialogData.user)">
+      delete user
+    </button>
+  </div>
+</mat-dialog-content>
+<mat-dialog-actions align="end">
+  <button matButton mat-dialog-close class="!text-error">Close</button>
+</mat-dialog-actions>

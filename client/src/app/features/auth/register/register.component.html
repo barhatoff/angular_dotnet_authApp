@@ -1,0 +1,63 @@
+<div class="md:w-1/2 w-3/4 m-auto flex flex-col justify-center">
+  <h2 class="text-center mb-8">Registration</h2>
+  <form
+    [formGroup]="registerForm"
+    class="md:w-1/2 w-full m-auto"
+    (ngSubmit)="register()">
+    <mat-form-field appearance="fill" class="mb-4 w-full">
+      <mat-label>Email</mat-label>
+      <input matInput type="email" formControlName="email" />
+      <mat-error *ngIf="registerForm.get('email')?.hasError('required')">
+        Email is required
+      </mat-error>
+      <mat-error *ngIf="registerForm.get('email')?.hasError('email')">
+        Invalid email
+      </mat-error>
+    </mat-form-field>
+    <mat-form-field apperance="fill" class="mb-4 w-full">
+      <mat-label>Nickname</mat-label>
+      <input matInput type="email" formControlName="nickname" />
+      <mat-error *ngIf="registerForm.get('nickname')?.hasError('required')">
+        Nickname is required
+      </mat-error>
+      <mat-error *ngIf="registerForm.get('nickname')?.hasError('minlength')">
+        Nickname must be at least 1 characters long
+      </mat-error>
+      <mat-error *ngIf="registerForm.get('nickname')?.hasError('maxlength')">
+        Nickname cannot exceed 60 characters
+      </mat-error>
+    </mat-form-field>
+    <mat-form-field appearance="fill" class="mb-4 w-full">
+      <mat-label>Password</mat-label>
+      <input matInput type="password" formControlName="password" />
+      <mat-error *ngIf="registerForm.get('password')?.hasError('required')">
+        Password is required
+      </mat-error>
+      <mat-error *ngIf="registerForm.get('password')?.hasError('minlength')">
+        Password must be at least 6 characters long
+      </mat-error>
+      <mat-error *ngIf="registerForm.get('password')?.hasError('maxlength')">
+        Password cannot exceed 100 characters
+      </mat-error>
+    </mat-form-field>
+    <mat-form-field appearance="fill" class="mb-4 w-full">
+      <mat-label>Repeat password</mat-label>
+      <input matInput type="password" formControlName="rptPassword" />
+      <mat-error
+        *ngIf="registerForm.get('rptPassword')?.hasError('passwordMismatch')">
+        Passwords do not match
+      </mat-error>
+    </mat-form-field>
+    <button
+      matButton="filled"
+      type="submit"
+      [disabled]="registerForm.invalid || isFormDisabled()"
+      class="w-full">
+      register
+    </button>
+  </form>
+  <div class="text-center mt-2">
+    <p>Alredy have account?</p>
+    <a class="text-primary" routerLink="/login">Log in</a>
+  </div>
+</div>

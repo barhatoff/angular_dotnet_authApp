@@ -1,0 +1,7 @@
+<ui-table
+  [data]="users()"
+  [displayedColumns]="displayedColumns"
+  [params]="tableParams()"
+  (paramsChanged)="handleParamsChanged($event)"
+  [editAction]="editUser"
+  class="w-full"></ui-table>

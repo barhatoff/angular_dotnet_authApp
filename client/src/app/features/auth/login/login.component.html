@@ -1,0 +1,41 @@
+<div class="md:w-1/2 w-3/4 m-auto flex flex-col justify-center">
+  <form
+    [formGroup]="loginForm"
+    class="md:w-1/2 w-full m-auto"
+    (ngSubmit)="login()">
+    <mat-form-field appearance="fill" class="mb-4 w-full">
+      <mat-label>Email</mat-label>
+      <input matInput type="email" formControlName="email" />
+      <mat-error *ngIf="loginForm.get('email')?.hasError('required')">
+        Email is required
+      </mat-error>
+      <mat-error *ngIf="loginForm.get('email')?.hasError('email')">
+        Invalid email
+      </mat-error>
+    </mat-form-field>
+    <mat-form-field appearance="fill" class="mb-4 w-full">
+      <mat-label>Password</mat-label>
+      <input matInput type="password" formControlName="password" />
+      <mat-error *ngIf="loginForm.get('password')?.hasError('required')">
+        Password is required
+      </mat-error>
+      <mat-error *ngIf="loginForm.get('password')?.hasError('minlength')">
+        Password must be at least 6 characters long
+      </mat-error>
+      <mat-error *ngIf="loginForm.get('password')?.hasError('maxlength')">
+        Password cannot exceed 100 characters
+      </mat-error>
+    </mat-form-field>
+    <button
+      matButton="filled"
+      class="w-full"
+      [disabled]="loginForm.invalid || isFormDisabled()"
+      type="submit">
+      log in
+    </button>
+  </form>
+  <div class="text-center mt-2">
+    <p>Don`t have account?</p>
+    <a class="text-primary" routerLink="/register">Register</a>
+  </div>
+</div>

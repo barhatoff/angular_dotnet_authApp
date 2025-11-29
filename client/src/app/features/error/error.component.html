@@ -1,0 +1,11 @@
+<div class="w-1/2 m-auto text-center">
+  <h1>Ooops!</h1>
+  <h2 class="text-error">Error {{ appError?.code }}</h2>
+  <div>
+    <h3>{{ appError?.message }}</h3>
+    <p *ngIf="appError?.instructions">
+      <a *ngIf="appError?.linkTo" [href]="appError?.linkTo">{{ appError?.instructions }}</a>
+      <span *ngIf="!appError?.linkTo">{{ appError?.instructions }}</span>
+    </p>
+  </div>
+</div>

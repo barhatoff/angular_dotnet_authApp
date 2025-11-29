@@ -1,0 +1,74 @@
+<ui-search-input
+  class="flex items-start"
+  *ngIf="isPageLoaded()"
+  [params]="params()"
+  (paramsChanged)="handleParamsChange($event)" />
+
+<table
+  mat-table
+  [dataSource]="data().data"
+  class="w-full"
+  *ngIf="isPageLoaded() && data().data.length > 0">
+  @for (column of displayedColumns(); track column) {
+    <ng-container [matColumnDef]="column">
+      <th mat-header-cell *matHeaderCellDef>
+        <div
+          class="flex items-center w-fit relative select-none"
+          (mouseenter)="hoveredHeader.set(column)"
+          (mouseleave)="hoveredHeader.set(null)"
+          (click)="onSortChange(column)"
+          [class]="
+            params().columnsWhichCanBeSorted.includes(column)
+              ? 'cursor-pointer'
+              : 'cursor-not-allowed'
+          ">
+          <p class="font-bold mr-1">{{ column }}</p>
+          <table-ui-sorting-arrow
+            [isActive]="params().sortBy === column"
+            [isHovered]="hoveredHeader() === column"
+            [direction]="params().sortDirection"
+            class="pt-6" />
+        </div>
+      </th>
+      <td mat-cell *matCellDef="let element; let i = index">
+        @if (column === '#') {
+          <p>{{ i + 1 }}</p>
+        } @else {
+          <div class="flex items-center">
+            <p>{{ element[column] }}</p>
+            <ui-delete-button
+              *ngIf="
+                column === displayedColumns().at(-1) &&
+                params().rowActions?.includes('delete')
+              "
+              (click)="deleteAction()?.(element)" />
+            <ui-edit-button
+              *ngIf="
+                column === displayedColumns().at(-1) &&
+                params().rowActions?.includes('edit')
+              "
+              (click)="editAction()?.(element)" />
+          </div>
+        }
+      </td>
+    </ng-container>
+  }
+
+  <tr mat-header-row *matHeaderRowDef="displayedColumns()"></tr>
+  <tr mat-row *matRowDef="let row; columns: displayedColumns()"></tr>
+</table>
+
+<ui-empty-table
+  *ngIf="isPageLoaded() && data().data.length === 0"
+  [displayedColumns]="displayedColumns()" />
+
+<mat-paginator
+  [pageSizeOptions]="[5, 10, 25, 100]"
+  [length]="data().total"
+  [pageSize]="params().pagination.limit"
+  [pageIndex]="data().page - 1"
+  (page)="onPageChange($event)"
+  aria-label="Select page of users"
+  *ngIf="isPageLoaded()"></mat-paginator>
+
+<ui-table-skeleton *ngIf="!isPageLoaded()" />

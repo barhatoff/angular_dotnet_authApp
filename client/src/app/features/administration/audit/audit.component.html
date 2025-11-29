@@ -1,0 +1,6 @@
+<ui-table
+  [data]="audits()"
+  [displayedColumns]="displayedColumns"
+  [params]="tableParams()"
+  (paramsChanged)="handleParamsChanged($event)"
+  class="w-full" />

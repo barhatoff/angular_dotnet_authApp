@@ -1,0 +1,17 @@
+<mat-form-field class="w-full md:w-1/3">
+  <mat-label>Searching</mat-label>
+  <input
+    matInput
+    #input
+    [(ngModel)]="searchText"
+    (keyup)="onSearchChange(searchText)" />
+  <button
+    matSuffix
+    mat-icon-button
+    aria-label="Clear"
+    *ngIf="searchText"
+    (click)="searchText = ''; onSearchChange(''); input.focus()">
+    <mat-icon>close</mat-icon>
+  </button>
+  <mat-icon matSuffix class="text-primary-400">search</mat-icon>
+</mat-form-field>
