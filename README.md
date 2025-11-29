@@ -4,6 +4,44 @@
 
 ## ./runApp.sh to run
 
+## Application Features
+
+### **Authentication & Tokens**
+- **Access Token** — short-lived JWT used for authenticated API requests.  
+- **Refresh Token** — long-lived token stored securely and used to obtain new access tokens without re-login.  
+- Automatic token refresh flow is supported on the client.
+
+---
+
+### **RBAC (Role-Based Access Control)**
+- Users have assigned roles (e.g., `admin`, `user`, etc.).  
+- Angular guards protect routes based on required roles.  
+- Backend enforces role checks on protected endpoints.  
+- Easy to extend with custom permissions.
+
+---
+
+### **Audit Logging**
+- Backend records key security-related actions (login, logout, admin updates, etc.).  
+- Audit entries contain user, timestamp, action, and optional metadata.  
+- Designed for compliance and traceability.
+
+---
+
+### **Administration Panel**
+- User management (view users, activate/deactivate, assign roles).  
+- System monitoring endpoints can be extended.  
+- Admin-only area protected by RBAC.
+
+---
+
+### **User Profile Management**
+- Users can view and update personal details.  
+- Supports editing email, password change, and profile-related settings.  
+- Includes validation and secure update flow via API.
+
+
+
 ### Angular code generation helpers
 
 - **`g:s <name>`**  
