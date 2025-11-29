@@ -1,14 +1,16 @@
 <div class="w-full">
-  <h1>Hello, {{ userService.user()?.nickname }}!</h1>
+  <h1 class="md:text-7xl text-5xl">
+    Hello, {{ userService.user()?.nickname }}!
+  </h1>
   <h2>Lets start!</h2>
   <div class="mt-5">
     <mat-card
       appearance="outlined"
-      class="md:w-1/3 !shadow-md !shadow-primary-400 w-full">
-      <mat-card-header>
+      class="xl:w-1/3 !shadow-md !shadow-primary-400 w-full">
+      <mat-card-header class="flex md:flex-row md:mb-0 flex-col mb-10">
         <div
           mat-card-avatar
-          class="!overflow-hidden cursor-pointer !w-60 !h-60"
+          class="!overflow-hidden cursor-pointer !w-60 !h-60 md:m-0 m-auto"
           (click)="viewAvatar()">
           <img
             src="{{ userService.user()?.avatar }}"
