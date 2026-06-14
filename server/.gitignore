@@ -2,8 +2,8 @@
 bin/
 obj/
 
-# Migration directories
-Migrations/
-
 # Configuration files
 appsettings.Development.json
+appsettings.json
+
+.env.dev

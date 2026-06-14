@@ -32,8 +32,8 @@ export class AuthApiService {
       { withCredentials: true, observe: 'response' },
     );
   }
-  whoim(): Observable<UserDto> {
-    return this.http.get<UserDto>(`${this.apiUrl}/auth/whoim`);
+  whoami(): Observable<UserDto> {
+    return this.http.get<UserDto>(`${this.apiUrl}/auth/whoami`);
   }
   logout(): Observable<void> {
     return this.http.delete<void>(`${this.apiUrl}/auth/logout`, {

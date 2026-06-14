@@ -1,0 +1,8 @@
+root = true
+
+[*.cs]
+
+dotnet_sort_system_directives_first = true:warning
+dotnet_separate_import_directive_groups = false:warning
+
+dotnet_diagnostic.IDE0005.severity = warning

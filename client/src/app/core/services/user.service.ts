@@ -22,7 +22,7 @@ export class UserService {
   ) {}
 
   loadUser() {
-    this.api.whoim().subscribe({
+    this.api.whoami().subscribe({
       next: (user: UserDto) => {
         this._userLoaded.set(true);
         this._user.set(user || null);

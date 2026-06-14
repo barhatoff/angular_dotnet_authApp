@@ -1,0 +1,1 @@
+sudo docker compose --file docker-compose-dev.yml --env-file .env.dev up
