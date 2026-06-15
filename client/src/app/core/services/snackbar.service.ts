@@ -1,5 +1,8 @@
+import { HttpErrorResponse } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { DialogService } from './dialog.service';
+import { ErrorDialogComponent } from '@shared/dialogs';
 
 export type SnackbarType = 'success' | 'error' | 'warning' | 'default';
 
@@ -8,6 +11,7 @@ export type SnackbarType = 'success' | 'error' | 'warning' | 'default';
 })
 export class SnackbarService {
   private readonly _snackbar = inject(MatSnackBar);
+  private readonly _dialog = inject(DialogService);
 
   open(
     message: string,
@@ -37,5 +41,11 @@ export class SnackbarService {
         if (!dismissByClickOnAction) onClose();
       });
     }
+  }
+
+  openError(e: HttpErrorResponse) {
+    this.open(`[HTTP ${e.status}] Error :(`, 'error', 'details', 3000, () =>
+      this._dialog.open(ErrorDialogComponent, e),
+    );
   }
 }

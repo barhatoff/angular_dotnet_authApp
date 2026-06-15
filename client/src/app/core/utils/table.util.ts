@@ -7,7 +7,7 @@ export const formatTableParamsToQueryParams = (params: TableParams): string => {
   if (searchParam) result += `searchParam=${searchParam}&`;
   if (sortBy) result += `sortBy=${sortBy}&`;
   if (sortDirection) result += `order=${sortDirection}&`;
-  if (pagination) result += `limit=${pagination.limit}&page${pagination.page}`;
+  if (pagination) result += `limit=${pagination.limit}&page=${pagination.page}`;
 
   return result;
 };

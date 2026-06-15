@@ -1,11 +1,10 @@
 import { CommonModule } from '@angular/common';
-import { Component, Input } from '@angular/core';
+import { Component, effect, inject, input, Input } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { MatDrawer, MatSidenavModule } from '@angular/material/sidenav';
-import { Router, RouterModule } from '@angular/router';
-import { SnackbarService, UserService } from '@core/services/_barrel';
-import { AuthApiService } from '@core/services/api';
+import { RouterModule } from '@angular/router';
+import { AuthService, SnackbarService } from '@core/services/_barrel';
 
 interface NavElement {
   groupName: string;
@@ -14,12 +13,17 @@ interface NavElement {
 }
 
 @Component({
-  selector: 'app-nav',
+  selector: 'app-ui-nav',
   imports: [MatSidenavModule, MatIconModule, MatButtonModule, CommonModule, RouterModule],
   templateUrl: './nav.component.html',
 })
 export class NavComponent {
-  public readonly NavElements: NavElement[] = [
+  readonly drawer = input.required<MatDrawer>();
+  readonly isCompactLayout = input.required<boolean>();
+  public readonly authService = inject(AuthService);
+  private readonly snackbar = inject(SnackbarService);
+
+  public readonly navElements: NavElement[] = [
     {
       groupName: 'Administration',
       routes: [
@@ -31,27 +35,16 @@ export class NavComponent {
     { groupName: 'Global', routes: [{ route: 'Home', url: '/' }] },
   ];
 
-  @Input() drawer!: MatDrawer;
-
-  constructor(
-    public userService: UserService,
-    private authApi: AuthApiService,
-    private snackbar: SnackbarService,
-    private router: Router,
-  ) {}
+  constructor() {
+    effect(() => {
+      if (!this.isCompactLayout()) {
+        this.drawer().open();
+      }
+    });
+  }
 
   logout() {
-    this.drawer.close();
-    this.authApi.logout().subscribe({
-      next: () => {
-        localStorage.removeItem('accessToken');
-        this.snackbar.open('Logout successful', 'success');
-        this.userService.logout();
-        this.router.navigate(['/login']);
-      },
-      error: (e) => {
-        this.snackbar.open('Logout error. Try again', 'error');
-      },
-    });
+    this.authService.logout();
+    this.drawer().close();
   }
 }

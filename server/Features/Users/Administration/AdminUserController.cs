@@ -7,7 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 namespace App.Features.Users.Administration.Controllers;
 
 [ApiController]
-[Route("/admin/users")]
+[Route("admin/users")]
 [Authorize(Policy = "MustBeAdmin")]
 [Audit]
 public class AdminUserController : ControllerBase

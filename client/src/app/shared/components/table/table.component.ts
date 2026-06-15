@@ -1,15 +1,16 @@
-import { Component, effect, input, output, signal } from '@angular/core';
-import { MatTableModule } from '@angular/material/table';
 import { CommonModule } from '@angular/common';
-import { TableResponse } from '@shared/models/api-responses.model';
-import { MatPaginatorModule, PageEvent } from '@angular/material/paginator';
+import { Component, input, output, signal, effect } from '@angular/core';
+import { MatButtonModule } from '@angular/material/button';
+import { MatIcon } from '@angular/material/icon';
+import { MatTableModule } from '@angular/material/table';
+import { TableResponse } from '@shared/models';
 import {
-  EmptyTableComponent,
-  SearchInputComponent,
-  SortingArrowComponent,
   TableSkeletonComponent,
+  SortingArrowComponent,
+  SearchInputComponent,
+  EmptyTableComponent,
 } from './additionals.barrel';
-import { DeleteButtonComponent, EditButtonComponent } from '../buttons';
+import { MatPaginatorModule, PageEvent } from '@angular/material/paginator';
 
 export interface TableParams {
   searchParam: string | undefined;
@@ -33,8 +34,8 @@ export interface TableParams {
     SortingArrowComponent,
     SearchInputComponent,
     EmptyTableComponent,
-    DeleteButtonComponent,
-    EditButtonComponent,
+    MatButtonModule,
+    MatIcon,
   ],
   templateUrl: './table.component.html',
 })

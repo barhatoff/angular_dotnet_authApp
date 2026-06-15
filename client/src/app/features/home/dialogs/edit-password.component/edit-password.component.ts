@@ -1,20 +1,23 @@
 import { CommonModule } from '@angular/common';
 import { HttpErrorResponse } from '@angular/common/http';
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import {
-  AbstractControlOptions,
-  FormBuilder,
-  FormGroup,
   ReactiveFormsModule,
+  FormBuilder,
   Validators,
+  AbstractControlOptions,
+  FormGroup,
 } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import { MatDialogModule } from '@angular/material/dialog';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
-import { SnackbarService, AuthService, DialogService } from '@core/services/_barrel';
-import { UserApiService } from '@core/services/api';
-import { UpdatePasswordRequest } from '@core/services/api/user/user-request.interface';
+import { AuthApiService } from '@core/services/api';
+import { DialogService } from '@core/services/dialog.service';
+import { SnackbarService } from '@core/services/snackbar.service';
+import { UserUpdateApiService } from '@features/home/api/user-udpate-api.service';
+import { UpdatePasswordRequest } from '@features/home/api/user-update-request.interface';
+import { FormValidationErrorPipe } from '@shared/pipes/form-validator-error.pipe';
 
 @Component({
   selector: 'app-edit-password.component',
@@ -25,31 +28,31 @@ import { UpdatePasswordRequest } from '@core/services/api/user/user-request.inte
     CommonModule,
     MatInputModule,
     ReactiveFormsModule,
+    FormValidationErrorPipe,
   ],
   templateUrl: './edit-password.component.html',
 })
 export class EditPasswordDialog {
-  changingPassword: FormGroup;
+  private readonly fb = inject(FormBuilder);
+  private readonly api = inject(UserUpdateApiService);
+  private readonly authService = inject(AuthApiService);
+  private readonly snackbar = inject(SnackbarService);
+  private readonly dialog = inject(DialogService);
 
-  constructor(
-    private fb: FormBuilder,
-    private api: UserApiService,
-    private authService: AuthService,
-    private snackbar: SnackbarService,
-    private dialog: DialogService,
-  ) {
-    this.changingPassword = this.fb.group(
-      {
-        password: ['', [Validators.required, Validators.minLength(6), Validators.maxLength(100)]],
-        newPassword: [
-          '',
-          [Validators.required, Validators.minLength(6), Validators.maxLength(100)],
-        ],
-        newPasswordRpt: ['', [Validators.required]],
-      },
-      { validators: this.isPasswordsMatch } as AbstractControlOptions,
-    );
-  }
+  readonly form = this.fb.group(
+    {
+      password: this.fb.control('', {
+        nonNullable: true,
+        validators: [Validators.required, Validators.minLength(6), Validators.maxLength(100)],
+      }),
+      newPassword: this.fb.control('', {
+        nonNullable: true,
+        validators: [Validators.required, Validators.minLength(6), Validators.maxLength(100)],
+      }),
+      newPasswordRpt: this.fb.control('', { nonNullable: true, validators: [Validators.required] }),
+    },
+    { validators: this.isPasswordsMatch } as AbstractControlOptions,
+  );
 
   isPasswordsMatch(group: FormGroup) {
     const pass = group.get('newPassword')?.value;
@@ -69,8 +72,8 @@ export class EditPasswordDialog {
   }
 
   changePassword() {
-    if (this.changingPassword.valid) {
-      const { password, newPassword } = this.changingPassword.value;
+    if (this.form.valid) {
+      const { password, newPassword } = this.form.getRawValue();
       const req: UpdatePasswordRequest = {
         password,
         newPassword,
@@ -90,7 +93,7 @@ export class EditPasswordDialog {
         error: (e: HttpErrorResponse) => {
           console.log(e);
 
-          if (e.status === 401) this.isWrongPassword(this.changingPassword);
+          if (e.status === 401) this.isWrongPassword(this.form);
           else {
             this.snackbar.open('Unexpected error. Try again', 'error');
             this.dialog.closeAll();

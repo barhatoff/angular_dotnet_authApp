@@ -6,6 +6,7 @@ export interface UserDto {
   role: UserRole;
 }
 export interface UserDtoTable {
+  id: string;
   email: string;
   nickname: string;
   role: UserRole;

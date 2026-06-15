@@ -1,38 +1,29 @@
 <mat-dialog-content>
   <h2>Edit profile</h2>
-  <div class="flex w-full mt-10">
-    <mat-form-field class="w-11/12">
+  <form [formGroup]="nicknameForm" class="flex w-full mt-10">
+    <mat-form-field class="w-full">
       <mat-label>Nickname</mat-label>
-      <input matInput [formControl]="nicknameControl" />
-      <mat-error *ngIf="nicknameControl.hasError('minlength')">
-        Nickname must be at least 3 characters long.
-      </mat-error>
-      <mat-error *ngIf="nicknameControl.hasError('maxlength')">
-        Nickname cannot exceed 60 characters.
-      </mat-error>
-      <mat-error *ngIf="nicknameControl.hasError('valueDidntChanged')">
-        This is your current nickname. Please enter a new one.
+      <input matInput formControlName="nickname" />
+      <mat-error>
+        {{ nicknameForm.controls['nickname'].errors | appFormValidationError }}
       </mat-error>
     </mat-form-field>
     <ui-apply-sqr-button
-      [onClick]="updateNickname"
-      [isDisabled]="isInputsDisabled() || !nicknameControl.valid" />
-  </div>
-  <div class="flex w-full mt-2">
-    <mat-form-field class="w-11/12">
+      (click)="updateNickname()"
+      [isDisabled]="isInputsDisabled() || !nicknameForm.valid" />
+  </form>
+  <form [formGroup]="avatarForm" class="flex w-full mt-2">
+    <mat-form-field class="w-full">
       <mat-label>Avatar URL</mat-label>
-      <input matInput [formControl]="avatarControl" />
-      <mat-error *ngIf="avatarControl.hasError('invalidUrl')">
-        Invalid URL
-      </mat-error>
-      <mat-error *ngIf="avatarControl.hasError('valueDidntChanged')">
-        This is your current avatar. Please enter a new one.
+      <input matInput formControlName="avatarUrl" />
+      <mat-error>
+        {{ avatarForm.controls['avatarUrl'].errors | appFormValidationError }}
       </mat-error>
     </mat-form-field>
     <ui-apply-sqr-button
-      [onClick]="updateAvatar"
-      [isDisabled]="isInputsDisabled() || !avatarControl.valid" />
-  </div>
+      (click)="updateAvatar()"
+      [isDisabled]="isInputsDisabled() || !avatarForm.valid" />
+  </form>
 </mat-dialog-content>
 <mat-dialog-actions align="end">
   <button matButton mat-dialog-close class="!text-error">Close</button>

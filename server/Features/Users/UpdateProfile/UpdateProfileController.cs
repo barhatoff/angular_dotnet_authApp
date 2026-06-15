@@ -7,7 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 namespace App.Features.Users.UpdateProfile;
 
 [ApiController]
-[Route("/users")]
+[Route("users")]
 [Authorize(Policy = "MustBeUser")]
 [Audit]
 public class UpdateProfileController : ControllerBase

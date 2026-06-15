@@ -1,4 +1,4 @@
-import { UserDtoTable } from '@shared/models/user.model';
+import { UserDtoTable } from '@shared/models';
 
 export function isUserDto(obj: any): obj is UserDtoTable {
   return (

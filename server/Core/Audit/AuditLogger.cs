@@ -4,27 +4,31 @@ namespace App.Core.Audit;
 
 public class AuditLogger
 {
+    private static readonly object _lock = new object();
     public void printLog(AuditEntity audit)
     {
-        Console.ForegroundColor = ConsoleColor.Green;
-        Console.Write("[AUDIT] ");
+        lock (_lock)
+        {
+            Console.ForegroundColor = ConsoleColor.Green;
+            Console.Write("[AUDIT] ");
 
-        Console.ForegroundColor = ConsoleColor.Yellow;
-        Console.Write($"USER: {audit.User} | ROLE: {audit.Role} | IP: {audit.Ip}");
+            Console.ForegroundColor = ConsoleColor.Yellow;
+            Console.Write($"USER: {audit.User} | ROLE: {audit.Role} | IP: {audit.Ip}");
 
-        Console.ForegroundColor = ConsoleColor.Cyan;
-        Console.Write($" {audit.Method} {audit.Url} ");
+            Console.ForegroundColor = ConsoleColor.Cyan;
+            Console.Write($" {audit.Method} {audit.Url} ");
 
-        Console.ForegroundColor = returnStatusCodeColor(audit.StatusCode);
-        Console.Write($"{audit.StatusCode} ");
+            Console.ForegroundColor = returnStatusCodeColor(audit.StatusCode);
+            Console.Write($"{audit.StatusCode} ");
 
-        Console.ForegroundColor = ConsoleColor.Green;
-        Console.Write($"[{audit.ProcessedMs}ms]");
+            Console.ForegroundColor = ConsoleColor.Green;
+            Console.WriteLine($"[{audit.ProcessedMs}ms]");
 
-        Console.ResetColor();
+            Console.ResetColor();
 
-        // optional
-        // Console.WriteLine(audit.Body); 
+            // optional
+            // Console.WriteLine(audit.Body); 
+        }
     }
 
     private System.ConsoleColor returnStatusCodeColor(int statusCode)

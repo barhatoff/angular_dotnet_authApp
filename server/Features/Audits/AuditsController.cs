@@ -7,7 +7,6 @@ namespace App.Features.Audits;
 
 [ApiController]
 [Route("admin/audits")]
-[Audit]
 [Authorize(Policy = "MustBeAdmin")]
 public class AuditsController : ControllerBase
 {

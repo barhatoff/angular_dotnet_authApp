@@ -1,7 +1,7 @@
-import { Component, signal } from '@angular/core';
+import { Component, computed, inject } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { MatDialogModule } from '@angular/material/dialog';
-import { UserService } from '@core/services/_barrel';
+import { AuthService } from '@core/services/_barrel';
 
 @Component({
   selector: 'app-avatar-preview.component',
@@ -9,9 +9,10 @@ import { UserService } from '@core/services/_barrel';
   templateUrl: './avatar-preview.component.html',
 })
 export class AvatarPreviewDialog {
-  avatarUrl = signal<string | null>(null);
-  constructor(private userService: UserService) {
-    const user = this.userService.user();
-    this.avatarUrl.set(user?.avatar ?? '');
-  }
+  private readonly authService = inject(AuthService);
+  avatarUrl = computed(() => {
+    const user = this.authService.user();
+    if (!user) return '';
+    return user.avatar;
+  });
 }

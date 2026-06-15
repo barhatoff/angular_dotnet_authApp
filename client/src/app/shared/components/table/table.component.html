@@ -36,18 +36,22 @@
         } @else {
           <div class="flex items-center">
             <p>{{ element[column] }}</p>
-            <ui-delete-button
-              *ngIf="
-                column === displayedColumns().at(-1) &&
-                params().rowActions?.includes('delete')
-              "
-              (click)="deleteAction()?.(element)" />
-            <ui-edit-button
-              *ngIf="
-                column === displayedColumns().at(-1) &&
-                params().rowActions?.includes('edit')
-              "
-              (click)="editAction()?.(element)" />
+            @if (
+              column === displayedColumns().at(-1) &&
+              params().rowActions?.includes('delete')
+            ) {
+              <button matIconButton (click)="deleteAction()?.(element)">
+                <mat-icon>delete</mat-icon>
+              </button>
+            }
+            @if (
+              column === displayedColumns().at(-1) &&
+              params().rowActions?.includes('edit')
+            ) {
+              <button matIconButton (click)="editAction()?.(element)">
+                <mat-icon>settings</mat-icon>
+              </button>
+            }
           </div>
         }
       </td>

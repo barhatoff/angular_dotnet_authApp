@@ -5,5 +5,6 @@ export interface Audit {
   method: 'GET' | 'POST' | 'PATCH' | 'DELETE';
   url: string;
   ip: string;
-  body: string;
+  processedMs: number;
+  statusCode: number;
 }

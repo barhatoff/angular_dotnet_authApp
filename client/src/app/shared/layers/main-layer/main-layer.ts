@@ -1,22 +1,23 @@
 import { CommonModule } from '@angular/common';
-import { Component } from '@angular/core';
+import { Component, computed, inject } from '@angular/core';
 import { MatSidenavModule } from '@angular/material/sidenav';
 import { RouterOutlet } from '@angular/router';
-import { UserService } from '@core/services/_barrel';
+import { ThemeService } from '@core/services/theme.service';
 import { HeaderComponent, ContentComponent, NavComponent } from '@shared/components/main-ui';
 
 @Component({
   selector: 'app-main-layer',
   imports: [
+    CommonModule,
+    RouterOutlet,
+    MatSidenavModule,
     HeaderComponent,
     ContentComponent,
     NavComponent,
-    MatSidenavModule,
-    RouterOutlet,
-    CommonModule,
   ],
   templateUrl: './main-layer.html',
 })
 export class MainLayer {
-  constructor(public userService: UserService) {}
+  private readonly themeService = inject(ThemeService);
+  readonly isCompactLayout = computed(() => this.themeService.isCompactLayout());
 }

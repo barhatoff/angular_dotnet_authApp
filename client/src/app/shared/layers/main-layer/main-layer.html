@@ -1,18 +1,14 @@
-<mat-drawer-container autosize class="min-h-full" *ngIf="userService.user()">
-  <mat-drawer #drawer class="xl:!w-1/6 lg:!w-1/2 !w-3/4">
-    <app-nav [drawer]="drawer" />
+<mat-drawer-container autosize class="min-h-full">
+  <mat-drawer
+    #drawer
+    class="2xl:!w-1/6 lg:!w-1/3 !w-3/4 !bg-background-600"
+    [mode]="isCompactLayout() ? 'over' : 'side'">
+    <app-ui-nav [drawer]="drawer" [isCompactLayout]="isCompactLayout()" />
   </mat-drawer>
   <mat-drawer-content>
-    <app-header [drawer]="drawer" />
-    <app-content><router-outlet /></app-content>
+    @if (isCompactLayout()) {
+      <app-ui-header [drawer]="drawer" />
+    }
+    <app-ui-content><router-outlet /></app-ui-content>
   </mat-drawer-content>
 </mat-drawer-container>
-
-<!-- SKELETON -->
-<div class="h-4/6 animate-pulse" *ngIf="!userService.user()">
-  <header
-    class="bg-background-400 max-w-full h-32 opacity-30 rounded-md"></header>
-  <content
-    class="block bg-background-400 max-w-full h-full opacity-30 m-5 rounded-md"></content>
-</div>
-<!-- SKELETON -->

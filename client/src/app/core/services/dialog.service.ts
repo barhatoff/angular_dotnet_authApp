@@ -31,6 +31,14 @@ export class DialogService {
 
     return this.matDialog.open(component, finalConfig);
   }
+  openAndListen<T, D = unknown, R = unknown>(
+    component: ComponentType<T>,
+    data?: D,
+    config?: MatDialogConfig<D>,
+  ): Observable<R | undefined> {
+    const dialogRef = this.open<T, D, R>(component, data, config);
+    return dialogRef.afterClosed();
+  }
 
   closeAll() {
     this.matDialog.closeAll();

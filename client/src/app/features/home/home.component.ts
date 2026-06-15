@@ -1,5 +1,5 @@
-import { Component } from '@angular/core';
-import { UserService, DialogService } from '@core/services/_barrel';
+import { Component, computed, inject } from '@angular/core';
+import { DialogService, AuthService } from '@core/services/_barrel';
 import { MatCardModule } from '@angular/material/card';
 import { CommonModule } from '@angular/common';
 import { MatButtonModule } from '@angular/material/button';
@@ -10,10 +10,12 @@ import { AvatarPreviewDialog, EditPasswordDialog, EditProfileDialog } from './di
   templateUrl: './home.component.html',
 })
 export class HomeComponent {
-  constructor(
-    public userService: UserService,
-    private dialog: DialogService,
-  ) {}
+  private readonly authService = inject(AuthService);
+  private readonly dialog = inject(DialogService);
+
+  readonly user = computed(() => {
+    return this.authService.user();
+  });
 
   viewAvatar() {
     this.dialog.open(AvatarPreviewDialog);

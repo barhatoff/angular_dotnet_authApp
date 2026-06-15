@@ -1,9 +1,9 @@
-import { Component, effect, signal } from '@angular/core';
-import { AuditApiService } from '@core/services/api';
-import { Audit } from '@core/services/api/audit/audit-response.interface';
+import { Component, signal } from '@angular/core';
 import { formatTableParamsToQueryParams } from '@core/utils/table.util';
 import { TableComponent, TableParams } from '@shared/components/table/table.component';
-import { TableResponse } from '@shared/models/api-responses.model';
+import { TableResponse } from '@shared/models';
+import { AuditApiService } from './api/audit-api.service';
+import { Audit } from './api/audit-response.interface';
 
 @Component({
   selector: 'app-audit.component',
@@ -15,7 +15,7 @@ export class AuditComponent {
   audits = signal<TableResponse<Audit>>({ data: [], total: 0, page: 1, pages: 0 });
 
   // table params
-  displayedColumns: string[] = ['#', 'time', 'user', 'role', 'method', 'url', 'ip'];
+  displayedColumns: string[] = ['#', 'time', 'user', 'role', 'method', 'url', 'statusCode', 'ip'];
   tableParams = signal<TableParams>({
     searchParam: undefined,
     columnsWhichCanBeSorted: ['time'],

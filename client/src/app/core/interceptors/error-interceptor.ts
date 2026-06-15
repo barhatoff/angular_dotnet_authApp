@@ -5,14 +5,14 @@ import {
   HttpInterceptor,
   HttpRequest,
 } from '@angular/common/http';
-import { Injectable } from '@angular/core';
+import { inject, Injectable } from '@angular/core';
 import { IGNORE_ERROR_INTERCEPTOR } from '@core/http/http-tokens';
 import { ErrorService } from '@core/services/_barrel';
 import { catchError, Observable, throwError } from 'rxjs';
 
 @Injectable({ providedIn: 'root' })
 export class ErrorInterceptor implements HttpInterceptor {
-  constructor(private errorService: ErrorService) {}
+  private readonly errorService = inject(ErrorService);
 
   intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
     // ignoring all errors and didnt throw into errorService for process in ui area

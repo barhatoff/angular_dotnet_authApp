@@ -1,14 +1,14 @@
 import { Component, signal } from '@angular/core';
-import { UserApiService } from '@core/services/api';
-import { UserDto, UserDtoTable } from '@shared/models/user.model';
-import { TableComponent, TableParams } from '@shared/components/table/table.component';
-import { formatTableParamsToQueryParams } from '@core/utils/table.util';
-import { TableResponse } from '@shared/models/api-responses.model';
-import { SnackbarService, UserService } from '@core/services/_barrel';
 import { isUserDto } from '@core/utils/type-guard.util';
 import { __param } from 'tslib';
 import { DialogService } from '@core/services/dialog.service';
 import { EditUserComponent, EditUserDialogData } from './dialogs/edit-user.component';
+import { SnackbarService } from '@core/services/snackbar.service';
+import { formatTableParamsToQueryParams } from '@core/utils/table.util';
+import { TableComponent, TableParams } from '@shared/components/table/table.component';
+import { TableResponse, UserDto, UserDtoTable } from '@shared/models';
+import { AuthService } from '@core/services/auth.service';
+import { AdminUserApiService } from './api/admin-user-api.service';
 
 @Component({
   selector: 'app-users.component',
@@ -35,14 +35,14 @@ export class UsersComponent {
   }
 
   constructor(
-    private api: UserApiService,
+    private api: AdminUserApiService,
     private snackbar: SnackbarService,
-    private user: UserService,
     private dialog: DialogService,
+    private authService: AuthService,
   ) {}
 
   private isUserСhangesHimself(target: UserDtoTable): boolean {
-    const user = this.user.user();
+    const user = this.authService.user();
     if (user?.email === target.email) {
       this.snackbar.open('You cant modified yourself', 'error');
       return false;

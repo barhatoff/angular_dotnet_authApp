@@ -1,12 +1,13 @@
 import { CommonModule } from '@angular/common';
-import { Component, effect, signal } from '@angular/core';
-import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
+import { Component, effect, inject, signal } from '@angular/core';
+import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { MatButton } from '@angular/material/button';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { RouterModule } from '@angular/router';
-import { SnackbarService, UserService, AuthService } from '@core/services/_barrel';
+import { SnackbarService, AuthService } from '@core/services/_barrel';
 import { LoginRequest } from '@core/services/api/auth/auth-request.interface';
+import { FormValidationErrorPipe } from '@shared/pipes/form-validator-error.pipe';
 
 @Component({
   selector: 'app-login.component',
@@ -17,36 +18,40 @@ import { LoginRequest } from '@core/services/api/auth/auth-request.interface';
     MatFormFieldModule,
     MatButton,
     RouterModule,
+    FormValidationErrorPipe,
   ],
   templateUrl: './login.component.html',
 })
 export class LoginComponent {
-  loginForm: FormGroup;
-  isFormDisabled = signal(false);
+  private readonly fb = inject(FormBuilder);
+  private readonly authService = inject(AuthService);
+  private readonly snackbar = inject(SnackbarService);
 
-  constructor(
-    private fb: FormBuilder,
-    private userService: UserService,
-    private snackbar: SnackbarService,
-    private authService: AuthService,
-  ) {
-    this.loginForm = this.fb.group({
-      email: [
-        '',
-        [Validators.required, Validators.email, Validators.minLength(6), Validators.maxLength(100)],
+  isFormDisabled = signal(false);
+  readonly loginForm = this.fb.group({
+    email: this.fb.control('', {
+      nonNullable: true,
+      validators: [
+        Validators.required,
+        Validators.email,
+        Validators.minLength(5),
+        Validators.maxLength(100),
       ],
-      password: ['', [Validators.required, Validators.minLength(6), Validators.maxLength(100)]],
-    });
-    effect(() => {
-      this.userService.isAlreadyLoggedIn();
-    });
-  }
+    }),
+    password: this.fb.control('', {
+      nonNullable: true,
+      validators: [Validators.required, Validators.minLength(6), Validators.maxLength(100)],
+    }),
+  });
+  private readonly authCheck = effect(() => {
+    this.authService.isAlreadyLoggedIn();
+  });
 
   login(): void {
     if (this.loginForm.valid) {
       this.isFormDisabled.set(true);
 
-      const { email, password } = this.loginForm.value;
+      const { email, password } = this.loginForm.getRawValue();
       const req: LoginRequest = { email, password };
 
       this.authService.login(req).subscribe({

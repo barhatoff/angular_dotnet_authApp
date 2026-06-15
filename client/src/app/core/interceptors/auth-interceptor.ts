@@ -6,22 +6,19 @@ import {
   HttpRequest,
   HttpResponse,
 } from '@angular/common/http';
-import { Injectable } from '@angular/core';
+import { inject, Injectable } from '@angular/core';
+import { catchError, Observable, switchMap, throwError } from 'rxjs';
 import { IGNORE_ERROR_INTERCEPTOR } from '@core/http/http-tokens';
 import { ErrorService } from '@core/services/_barrel';
 import { AuthApiService } from '@core/services/api';
-import { catchError, Observable, switchMap, throwError } from 'rxjs';
 
 @Injectable({ providedIn: 'root' })
 export class AuthInterceptor implements HttpInterceptor {
   private accessToken: string | null = localStorage.getItem('accessToken') ?? null;
+  private readonly api = inject(AuthApiService);
+  private readonly error = inject(ErrorService);
 
-  constructor(
-    private api: AuthApiService,
-    private error: ErrorService,
-  ) {}
-
-  intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
+  intercept(req: HttpRequest<unknown>, next: HttpHandler): Observable<HttpEvent<unknown>> {
     let authReq = req;
 
     // intercepter into each HTTP request and set header: Authorization
@@ -36,7 +33,7 @@ export class AuthInterceptor implements HttpInterceptor {
       .pipe(catchError((e: HttpErrorResponse) => this.refreshToken(authReq, e, next)));
   }
 
-  refreshToken(req: HttpRequest<any>, e: HttpErrorResponse, next: HttpHandler) {
+  refreshToken(req: HttpRequest<unknown>, e: HttpErrorResponse, next: HttpHandler) {
     // ignoring 401 error code if context have http-token
     // for example: used in user-api.serice [patch /user/password]: api returns 401 if user typed wrong password
     const shouldSkipIntercept = req.context.get(IGNORE_ERROR_INTERCEPTOR);
@@ -45,7 +42,7 @@ export class AuthInterceptor implements HttpInterceptor {
     // if /auth/refresh returns 401 interceptor throwing sessionExpired
     if (e.status === 401 && !req.url.endsWith('/auth/refresh'))
       return this.api.refresh().pipe(
-        switchMap((res: HttpResponse<any>) => {
+        switchMap((res: HttpResponse<unknown>) => {
           const newToken = res.headers.get('Authorization')?.split(' ')[1] || null;
           if (newToken) this.setAccessToken(newToken);
           // after refreshing access token, interceptor cloning initial request

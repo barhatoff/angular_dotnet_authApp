@@ -3,9 +3,8 @@ import { Injectable } from '@angular/core';
 import { environment } from '@env/environment';
 import { LoginRequest, RegisterRequest } from './auth-request.interface';
 import { Observable } from 'rxjs';
-import { ApiResponseMessage } from '@shared/models/api-responses.model';
-import { UserDto } from '@shared/models/user.model';
 import { ignoringErrorInterceptorContext } from '../../../http/http-context';
+import { ApiResponseMessage, UserDto } from '@shared/models';
 
 @Injectable({
   providedIn: 'root',
@@ -35,8 +34,8 @@ export class AuthApiService {
   whoami(): Observable<UserDto> {
     return this.http.get<UserDto>(`${this.apiUrl}/auth/whoami`);
   }
-  logout(): Observable<void> {
-    return this.http.delete<void>(`${this.apiUrl}/auth/logout`, {
+  logout(): Observable<ApiResponseMessage> {
+    return this.http.delete<ApiResponseMessage>(`${this.apiUrl}/auth/logout`, {
       withCredentials: true,
     });
   }

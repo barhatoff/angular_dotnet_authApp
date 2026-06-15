@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 
 @Component({
-  selector: 'app-content',
+  selector: 'app-ui-content',
   imports: [],
   templateUrl: './content.component.html',
 })

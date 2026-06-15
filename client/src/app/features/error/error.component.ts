@@ -3,7 +3,7 @@ import { Component } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { ActivatedRoute } from '@angular/router';
 import { ErrorService, SnackbarService } from '@core/services/_barrel';
-import { AppError } from '@shared/models/error.model';
+import { AppError } from '@shared/models';
 import { fromEvent } from 'rxjs';
 
 @Component({
@@ -21,7 +21,7 @@ export class ErrorComponent {
     private route: ActivatedRoute,
     private errorService: ErrorService,
   ) {
-    this.appError = errorService.error();
+    this.appError = errorService.criticalError();
     fromEvent(window, 'popstate')
       .pipe(takeUntilDestroyed())
       .subscribe(() => {

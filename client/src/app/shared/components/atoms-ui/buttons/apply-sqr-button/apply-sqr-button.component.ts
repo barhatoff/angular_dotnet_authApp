@@ -1,4 +1,4 @@
-import { Component, input } from '@angular/core';
+import { Component, input, output } from '@angular/core';
 import { MatFabButton } from '@angular/material/button';
 import { MatIcon } from '@angular/material/icon';
 
@@ -8,6 +8,5 @@ import { MatIcon } from '@angular/material/icon';
   templateUrl: './apply-sqr-button.component.html',
 })
 export class ApplySqrButtonComponent {
-  onClick = input.required<() => void>();
   isDisabled = input<boolean>();
 }
