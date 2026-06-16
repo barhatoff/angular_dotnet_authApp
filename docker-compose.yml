@@ -1,10 +1,10 @@
-version: '3.8'
+version: "3.8"
 
 services:
   db:
     image: postgres:16-alpine
     container_name: postgres
-    restart: unless-stopped
+    restart: always
     environment:
       POSTGRES_USER: ${DB_USER}
       POSTGRES_PASSWORD: ${DB_PASSWORD}
@@ -17,11 +17,65 @@ services:
     command: "postgres -c config_file=/etc/postgresql/postgresql.conf"
     networks:
       - network
-
+  server:
+    build:
+      context: ./server
+    container_name: dotnet-backend
+    restart: always
+    env_file:
+      - .env
+    read_only: true
+    environment:
+      ConnectionStrings__Database: "Host=db;Port=5432;Database=${DB_NAME};Username=${DB_USER};Password=${DB_PASSWORD}"
+      Jwt__AccessSecret: "${JWT_ACCESS_SECRET}"
+      Jwt__RefreshSecret: "${JWT_REFRESH_SECRET}"
+      AppOptions__ClientUrl: "https://192.168.0.190"
+    networks:
+      - network
+  client:
+    build:
+      context: ./client
+    container_name: angular_client
+    restart: always
+    read_only: true
+    networks:
+      - network
+    tmpfs:
+      - /var/cache/nginx
+      - /var/run
+      - /var/log/nginx
+      - /var/cache/nginx/client_temp
+      - /var/cache/nginx/proxy_temp
+      - /var/cache/nginx/fastcgi_temp
+      - /var/cache/nginx/uwsgi_temp
+      - /var/cache/nginx/scgi_temp
+  gateway:
+    build:
+      context: ./nginx
+    container_name: gateway-nginx
+    restart: always
+    read_only: true
+    ports:
+      - "80:80"
+      - "443:443"
+    tmpfs:
+      - /var/cache/nginx
+      - /var/run
+      - /var/log/nginx
+      - /tmp
+      - /var/cache/nginx/client_temp
+      - /var/cache/nginx/proxy_temp
+      - /var/cache/nginx/fastcgi_temp
+      - /var/cache/nginx/uwsgi_temp
+      - /var/cache/nginx/scgi_temp
+    depends_on:
+      - client
+      - server
+    networks:
+      - network
 networks:
   network:
     driver: bridge
-
 volumes:
   pgdata:
     driver: local
