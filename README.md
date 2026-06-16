@@ -2,17 +2,15 @@
 
 ## Authentication example combining an Angular front-end and .NET back-end with PostgreSQL. Ready for production deployment and scaling.
 
-## The system features a secure gateway architecture where all services are fully containerized, optimized for minimal footprint, and hardened using SecOps best practices (including strictly enforced `read-only` file systems for runtime containers).
-
 ## Prod run:
 
-**docker compose up -build**
+**`docker compose up -build`**
 
 ## Dev run:
 
-**./run-dev.sh**
-**/server/dotnet run**
-**/client/npm run start:dev**
+- **`./run-dev.sh`**
+- **`/server/dotnet run`**
+- **`/client/npm run start:dev`**
 
 ## Application Features
 
